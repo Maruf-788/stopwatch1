@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .stopwatch {
+            text-align: center;
+        }
+
+        .time {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        button {
+            font-size: 1.2rem;
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="stopwatch">
+        <div class="time" id="time">00:00:00</div>
+        <button onclick="start()">Start</button>
+        <button onclick="stop()">Stop</button>
+        <button onclick="reset()">Reset</button>
+    </div>
+
+    <script>
+        let timerInterval;
+        let elapsedTime = 0;
+
+        function updateTime() {
+            const hours = Math.floor(elapsedTime / 3600).toString().padStart(2, '0');
+            const minutes = Math.floor((elapsedTime % 3600) / 60).toString().padStart(2, '0');
+            const seconds = (elapsedTime % 60).toString().padStart(2, '0');
+
+            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function start() {
+            if (!timerInterval) {
+                timerInterval = setInterval(() => {
+                    elapsedTime++;
+                    updateTime();
+                }, 1000);
+            }
+        }
+
+        function stop() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        function reset() {
+            stop();
+            elapsedTime = 0;
+            updateTime();
+        }
+
+        updateTime();
+    </script>
+</body>
+</html>
